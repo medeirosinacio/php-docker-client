@@ -1,0 +1,29 @@
+version: "3.7"
+
+networks:
+  dockered:
+
+services:
+
+  php:
+    image: php
+    hostname: phpfpm
+    container_name: ${APP_PROJECT_NAME}-phpfpm
+    working_dir: /app
+    dns: 1.1.1.1
+    networks:
+      - dockered
+    volumes:
+      - ./:/app
+
+  docker-api:
+    hostname: docker-api
+    image: docker:dind
+    container_name: ${APP_PROJECT_NAME}-docker-api
+    dns: 1.1.1.1
+    privileged: true
+    environment:
+      DOCKER_TLS_CERTDIR: ""
+      DOCKER_HOST: tcp://0.0.0.0:2375
+    networks:
+      - dockered
