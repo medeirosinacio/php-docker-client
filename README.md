@@ -1,69 +1,45 @@
-# Estrutura Básica do Projeto PHP
+# PHP Docker Run!!!
 
-###### Basic PHP Project Structure
+## Introdução
 
-Este repositorio foi baseado no [pds/skeleton](https://github.com/php-pds/skeleton), onde descreve com base em estudos,
-uma estrutura padrão para projetos e pacotes PHP.
+Este projeto de teste é uma classe de exemplo que demonstra como utilizar a API do Docker para executar tarefas
+relacionadas a containers.
 
-Foi feito alterações a fim de tornar mais rapido subir, testar e estudar novas funcionalidades PHP, por conta disso a
-estrutura foi modificada, os detalhes das modificações você encontra nesse documento, para mais detalhes consulte
-a [documentação original](https://github.com/php-pds/skeleton) antes de começar a usar.
+Ele foi construído para fornecer uma representação do comando `docker run` dentro do ambiente da API do Docker. A
+classe `DockerApi` fornece métodos para criar, listar, iniciar, parar, remover e obter informações
+sobre containers, bem como para baixar imagens e obter informações sobre a versão do Docker. Este projeto é apenas um
+exemplo e pode ser usado como base para desenvolvimento de aplicações que utilizam a API do Docker para gerenciamento de
+containers.
 
-## Resumo
+## Pré-requisitos
 
-| Se o projeto tiver uma pasta na raiz para... | ...então a pasta será nomeada: |
-|----------------------------------------------|--------------------------------|
-| executáveis da linha de comando              | `bin/`                         |
-| arquivos dockerfiles para subir a aplicação  | `docker/`                      |
-| arquivos de configuração                     | `config/`                      |
-| arquivos de documentação                     | `docs/`                        |
-| arquivos do servidor web                     | `public/`                      |
-| outros arquivos de recursos                  | `resources/`                   |
-| Código fonte                                 | `src/`                         |
-| código de teste                              | `tests/`                       |
-| pacotes adicionais                           | `vendor/`                      |
+- Docker
+- Docker Compose
 
-| Se o projeto tiver um arquivo na raiz para... | ....então o arquivo será nomeado: |
-|-----------------------------------------------|-----------------------------------|
-| um log de mudanças entre versões              | `CHANGELOG(.*)`                   |
-| diretrizes para colaboradores                 | `CONTRIBUTING(.*)`                |
-| informações de licenciamento                  | `LICENSE(.*)`                     |
-| informações sobre o próprio pacote ou projeto | `README(.*)`                      |
-| pacotes requisitos do projeto                 | `composer.json`                   |
+## Instalação
 
-## Alterações do projeto original
+1. Clone este repositório:
 
-#### Diretorio "docker"
+```sh
+git clone https://github.com/medeirosinacio/docker-api.git
+```
 
-O projeto original foi realizado a fim de padronizar o desenvolvimento de novos pacotes PHP
-pela comunidade, a pasta **docker** foi criada para guardar arquivos relacionados ao Docker e Docker Compose, assim
-conseguimos subir o ambiente completo para testes, estudos ou novos projetos e temos um bom
-ponto de partida.
+2. Navegue até a pasta do projeto:
 
-Dentro do diretorio ja se encontra o ambiente localhost completo e configurado com Nginx, PHP-FPM e PHP7.4.
+```sh
+cd php-docker-run
+```
 
-#### Diretorio "vendor" e arquivo "composer.json"
+3. Execute o script build para subir e deixar os containers em execução:
 
-Foi adiciona o **composer.json** no projeto já com as configurações do mesmo, assim, agilizando o
-desenvolvimento com pacotes externos. O diretorio **vendor** é criado automaticamente
-ao rodar o comando `composer install` ou `composer update`
+```sh
+bin/build-up.sh
+```
 
-#### Arquivos em "public/"
+4. Execute o script run para rodar o arquivo run.php dentro da pasta src:
 
-Foi adicionado arquivos para a construção do projeto já ter uma base de testes.
-**public/index.php** carrega o autoload do composer e já é carregado pelo servidor web
-ao iniciar os serviços com `docker-compose up`. **public/phpinfo.php** para conferir todas
-as configurações e modulos habilitados na imagem.
+```sh
+bin/run.sh
+```
 
-## Como usar
-
-Existem duas maneiras para usar este templete de projeto PHP.
-
-A primeira é clonando este repositorio e colocar no root do seu servidor web/php, aponte
-a pasta publica para **public** e rode o composer para atualizar os pacotes.
-
-A segunda é após clonar o repositorio para um servidor com docker e docker compose
-instalado, entre na pasta docker e rode o build.sh para iniciar os serviços.
-
-Todos os arquivos estão ao maximo simplificado e comentados, você tem total liberdade para
-alterar conforme sua necessidade.
+## Como funciona
