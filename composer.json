@@ -1,7 +1,8 @@
 {
   "name": "medeirosinacio/php-docker-run",
   "type": "poc",
-  "description": "Testes de representação de execução do comando \"docker run\" com PHP + Docker API",
+  "version": "0.1",
+  "description": "Proof of concept for running the \"docker run\" command with PHP + Docker API",
   "homepage": "https://github.com/medeirosinacio/php-docker-run",
   "license": "MIT",
   "authors": [

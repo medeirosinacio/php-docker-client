@@ -12,4 +12,4 @@ $outputCommand = Docker::run(
 print_r($outputCommand);
 // 2023-01-18 00:28:13.648109
 
-print_r(PHP_EOL);
+echo PHP_EOL;
