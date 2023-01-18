@@ -6,11 +6,15 @@ networks:
 services:
 
   php:
-    image: php
-    hostname: phpfpm
-    container_name: ${APP_PROJECT_NAME}-phpfpm
+    image: dumptec/php-fpm:dev-8.2-latest
+    hostname: php
+    user: "dump"
     working_dir: /app
     dns: 1.1.1.1
+    depends_on:
+      - docker-api
+    links:
+      - docker-api
     networks:
       - dockered
     volumes:
@@ -19,7 +23,6 @@ services:
   docker-api:
     hostname: docker-api
     image: docker:dind
-    container_name: ${APP_PROJECT_NAME}-docker-api
     dns: 1.1.1.1
     privileged: true
     environment:
