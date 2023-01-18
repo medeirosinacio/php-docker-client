@@ -3,15 +3,12 @@
 namespace medeirosinacio\Sdk;
 
 use Illuminate\Http\Client\PendingRequest;
-use Illuminate\Support\Str;
 
-class DockerApi
+class DockerClient
 {
-	protected string $host = 'http://docker-api:2375';
-
 	protected PendingRequest $client;
 
-	public function __construct()
+	public function __construct(protected string $host = '')
 	{
 		$this->client = new PendingRequest();
 
@@ -19,6 +16,11 @@ class DockerApi
 			->baseUrl($this->host)
 			->timeout(360)
 			->throw();
+	}
+
+	public function version(): array
+	{
+		return $this->client->get(url: '/version')->json();
 	}
 
 	public function createContainer(string $image): array
@@ -31,11 +33,6 @@ class DockerApi
 			])->json();
 	}
 
-	public function version(): array
-	{
-		return $this->client->get(url: '/version')->json();
-	}
-
 	public function pullImage(string $image): void
 	{
 		$this->client->post(url: '/images/create?fromImage='.urlencode($image));
@@ -43,17 +40,12 @@ class DockerApi
 
 	public function startContainer(string $containerId): void
 	{
-		$this->client->post(url: sprintf('/containers/%s/start', $containerId))->json();
+		$this->client->post(url: '/containers/'.$containerId.'/start')->json();
 	}
 
 	public function stopContainer(string $containerId): void
 	{
-		$this->client->post(url: sprintf('/containers/%s/stop', $containerId));
-	}
-
-	public function killContainer(string $containerId): void
-	{
-		$this->client->post(url: sprintf('/containers/%s/kill', $containerId));
+		$this->client->post(url: '/containers/'.$containerId.'/stop');
 	}
 
 	public function removeContainer(string $containerId): void
@@ -61,7 +53,7 @@ class DockerApi
 		$this->stopContainer($containerId);
 
 		$this->client->delete(
-			url: sprintf('/containers/%s', $containerId),
+			url: '/containers/'.$containerId,
 			data: [
 				'force' => true,
 				'v' => true
@@ -71,7 +63,7 @@ class DockerApi
 	public function execContainer(string $containerId, array $command): array
 	{
 		return $this->client->post(
-			url: sprintf('/containers/%s/exec', $containerId),
+			url: '/containers/'.$containerId.'/exec',
 			data: [
 				"AttachStdin" => true,
 				"AttachStdout" => true,
@@ -87,29 +79,10 @@ class DockerApi
 	public function execStartContainer(string $containerId): string
 	{
 		return $this->client->post(
-			url: sprintf('/exec/%s/start', $containerId),
+			url: '/exec/'.$containerId.'/start',
 			data: [
 				"Detach" => false,
 				"Tty" => true,
 			])->body();
-	}
-
-	public static function run(string $image, array $command): string
-	{
-		$docker = new self();
-
-		$docker->pullImage($image);
-
-		$containerId = $docker->createContainer($image)['Id'];
-
-		$docker->startContainer($containerId);
-
-		$execId = $docker->execContainer($containerId, $command)['Id'];
-
-		$output = $docker->execStartContainer($execId);
-
-		//	$docker->removeContainer($containerId);
-
-		return Str::squish($output);
 	}
 }

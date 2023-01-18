@@ -1,10 +1,10 @@
 <?php
 
-use medeirosinacio\Sdk\DockerApi;
+use medeirosinacio\Sdk\Docker;
 
 include_once __DIR__.'/../vendor/autoload.php';
 
-$outputCommand = DockerApi::run(
+$outputCommand = Docker::run(
 	image: 'python:3.9.16-slim',
 	command: ['python', '-c', "from datetime import datetime; print(datetime.now())"]
 );

@@ -5,4 +5,4 @@ APP_PATH="$(
   pwd -P
 )" && cd "$APP_PATH"/../ || exit
 
-docker-compose run -w /app php bash -c "php src/test-docker-run.php"
+docker-compose exec -w /app php bash -c "php src/test-docker-run.php"
