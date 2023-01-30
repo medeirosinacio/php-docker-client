@@ -5,8 +5,8 @@ use medeirosinacio\Sdk\Docker;
 include_once __DIR__.'/../vendor/autoload.php';
 
 $outputCommand = Docker::run(
-	image: 'python:3.9.16-slim',
-	command: ['python', '-c', "from datetime import datetime; print(datetime.now())"]
+    image: 'python:3.9.16-slim',
+    command: ['python', '-c', "from datetime import datetime; print(datetime.now())"]
 );
 
 print_r($outputCommand);
